@@ -13,6 +13,9 @@
 - PyQt6
 - EbookLib
 
+## 下载打包程序
+- 已发布可直接下载的 Windows 打包版本（含 EXE）：https://github.com/hou720616/TXT_To_Epub/releases
+
 ## 目录结构
 - `main.py` - PyQt6 GUI 界面逻辑及入口文件
 - `converter.py` - 核心转换逻辑文件（读取TXT、匹配章节、生成EPUB）
