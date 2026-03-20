@@ -109,12 +109,10 @@ class TxtToEpubApp(QWidget):
             }
         """)
         
-        # 整体布局
         main_layout = QVBoxLayout()
         main_layout.setContentsMargins(26, 24, 26, 24)
         main_layout.setSpacing(14)
 
-        # 标题标签
         title_label = QLabel("TXT 到 EPUB 转换器")
         title_font = QFont("Microsoft YaHei UI", 24, QFont.Weight.Bold)
         title_label.setFont(title_font)
@@ -126,14 +124,12 @@ class TxtToEpubApp(QWidget):
         subtitle_label.setStyleSheet("color: #6b7280; font-size: 13px;")
         main_layout.addWidget(subtitle_label)
         
-        # 文件选择区
         file_group = QGroupBox("文件设置")
         file_group_font = QFont("Microsoft YaHei", 10)
         file_group.setFont(file_group_font)
         file_layout = QFormLayout()
         file_layout.setSpacing(10)
 
-        # 输入 TXT
         self.txt_input = QLineEdit()
         self.txt_input.setPlaceholderText("请选择要转换的 TXT 文本文件...")
         self.txt_input.setReadOnly(True)
@@ -146,7 +142,6 @@ class TxtToEpubApp(QWidget):
         txt_box.addWidget(txt_btn)
         file_layout.addRow("输入文件:", txt_box)
 
-        # 输出 EPUB
         self.epub_input = QLineEdit()
         self.epub_input.setPlaceholderText("转换后的 EPUB 保存位置...")
         epub_btn = QPushButton("浏览...")
@@ -161,7 +156,6 @@ class TxtToEpubApp(QWidget):
         file_group.setLayout(file_layout)
         main_layout.addWidget(file_group)
 
-        # 元数据区
         meta_group = QGroupBox("书籍信息 (可选)")
         meta_group.setFont(file_group_font)
         meta_layout = QFormLayout()
@@ -179,7 +173,6 @@ class TxtToEpubApp(QWidget):
         meta_group.setLayout(meta_layout)
         main_layout.addWidget(meta_group)
 
-        # 转换按钮
         self.convert_btn = QPushButton("开始转换")
         self.convert_btn.setMinimumHeight(52)
         self.convert_btn.setProperty("primary", True)
@@ -194,7 +187,6 @@ class TxtToEpubApp(QWidget):
         )
         if file_path:
             self.txt_input.setText(file_path)
-            # 自动填充输出路径和书名
             base_name = os.path.splitext(os.path.basename(file_path))[0]
             dir_name = os.path.dirname(file_path)
             self.epub_input.setText(os.path.join(dir_name, f"{base_name}.epub"))
@@ -219,15 +211,12 @@ class TxtToEpubApp(QWidget):
             QMessageBox.warning(self, "提示", "请选择保存路径！")
             return
 
-        # 获取元数据
         title = self.title_input.text().strip() or os.path.splitext(os.path.basename(txt_path))[0]
         author = self.author_input.text().strip() or "佚名"
 
-        # 禁用按钮，显示进度
         self.convert_btn.setEnabled(False)
         self.convert_btn.setText("正在转换中，请稍候...")
 
-        # 启动后台线程转换，避免界面卡死
         self.thread = ConvertThread(txt_path, epub_path, title, author)
         self.thread.finished.connect(self.conversion_done)
         self.thread.start()
@@ -244,7 +233,7 @@ class TxtToEpubApp(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    app.setStyle("Fusion") # 使用现代风格
+    app.setStyle("Fusion")
     ex = TxtToEpubApp()
     ex.show()
     sys.exit(app.exec())
